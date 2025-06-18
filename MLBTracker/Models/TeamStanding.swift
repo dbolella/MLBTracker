@@ -34,3 +34,17 @@ func generateMockStandings() -> [TeamStanding] {
     }
 }
 
+func printStandings(_ standings: [TeamStanding]) -> String {
+    var standingsString = ""
+    for league in League.allCases {
+        standingsString += "\(league.rawValue):\n"
+        for division in Division.allCases {
+            standingsString += "  \(division.rawValue) Division:\n"
+            let teams = standings.filter { $0.league == league && $0.division == division }
+            for team in teams.sorted(by: { $0.winPercentage > $1.winPercentage }) {
+                standingsString += "    \(team.team): \(team.wins)-\(team.losses) (Win%: \(String(format: "%.3f", team.winPercentage)))\n"
+            }
+        }
+    }
+    return standingsString
+}

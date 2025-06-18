@@ -45,3 +45,11 @@ func generateMockGames() -> [BaseballGame] {
     
     return games
 }
+
+func printBaseballGamesDetails(_ games: [BaseballGame]) -> String {
+    var result: String = ""
+    for game in games {
+        result += "Home: \(game.homeTeam), Away: \(game.awayTeam), Home Score: \(game.homeScore), Away Score: \(game.awayScore), Innings: \(game.inningsPlayed), Over: \(game.isGameOver), At Bat: \(game.teamAtBat)\n"
+    }
+    return result
+}
