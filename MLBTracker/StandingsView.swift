@@ -5,7 +5,6 @@
 //  Created by Daniel Bolella on 6/12/25.
 //
 import SwiftUI
-import AVFoundation
 
 struct StandingsView: View {
     let standings: [TeamStanding] = generateMockStandings()

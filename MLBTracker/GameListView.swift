@@ -5,8 +5,6 @@
 //  Created by Daniel Bolella on 6/12/25.
 //
 import SwiftUI
-import FoundationModels
-import AVFoundation
 
 struct GameListView: View {
     let games = generateMockGames()

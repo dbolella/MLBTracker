@@ -28,6 +28,7 @@ struct SummaryTemplateView<Content: View>: View {
                             showSheet.toggle()
                         } label: {
                             summaryIcon
+                                .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.red, .blue]), startPoint: .top, endPoint: .bottom))
                                 .symbolEffect(.bounce, options: .speed(0.5).repeat(.continuous))
                         }
                     }
@@ -57,14 +58,21 @@ struct SummaryTemplateView<Content: View>: View {
                 }
             }
             Spacer()
-            Button {
-                readSummary()
-            } label: {
-                Text("Read Summary Aloud")
+            
+            HStack {
+                Spacer()
+                
+                Button {
+                    readSummary()
+                } label: {
+                    Text("Read Summary Aloud")
+                }
+                .buttonStyle(.glass)
+                .tint(.pink)
+                .padding(.bottom)
+                
+                Spacer()
             }
-            .buttonStyle(.glass)
-            .tint(.pink)
-            .padding(.bottom)
         }
         .padding()
     }
