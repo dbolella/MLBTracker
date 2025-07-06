@@ -15,6 +15,7 @@ class StandingsSummarizer {
         let combinedPrompt = basePrompt + standingsData
         let session = LanguageModelSession()
         let response = try await session.respond(to: combinedPrompt).content
+        print(response)
         return response
     }
     
