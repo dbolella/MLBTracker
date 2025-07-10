@@ -16,13 +16,25 @@ struct ScoutView: View {
     ]
 
     var body: some View {
-        NavigationStack {
-            List(subpages) { subpage in
-                NavigationLink(destination: SampleDetailView(title: subpage.title)) {
+        ViewThatFits {
+            NavigationSplitView {
+                List(subpages) { subpage in
                     Label(subpage.title, systemImage: subpage.icon)
                 }
+                .navigationTitle("Scout")
+            } detail: {
+                SampleDetailView(title: "Detail View!")
             }
-            .navigationTitle("Scout")
+
+            
+            NavigationStack {
+                List(subpages) { subpage in
+                    NavigationLink(destination: SampleDetailView(title: subpage.title)) {
+                        Label(subpage.title, systemImage: subpage.icon)
+                    }
+                }
+                .navigationTitle("Scout")
+            }
         }
     }
 }

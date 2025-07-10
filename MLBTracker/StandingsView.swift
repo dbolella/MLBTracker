@@ -10,40 +10,62 @@ struct StandingsView: View {
     let standings: [TeamStanding] = generateMockStandings()
 
     var body: some View {
-        NavigationView {
-            SummaryTemplateView(
-                generateSummary: { try await StandingsSummarizer.summarizeStandings(standings) },
-                content: {
-                    List {
-                        ForEach(League.allCases, id: \.self) { league in
-                            if let divisions = groupedStandings[league] {
-                                Section(header: Text(league.rawValue).font(.title2)) {
-                                    ForEach(Division.allCases, id: \.self) { division in
-                                        if let teams = divisions[division] {
-                                            Section(header: Text(division.rawValue)) {
-                                                ForEach(teams) { team in
-                                                    HStack {
-                                                        Text(team.team.rawValue)
-                                                            .fontWeight(.bold)
-                                                        Spacer()
-                                                        Text("\(team.wins)-\(team.losses)")
-                                                        Text("(\(String(format: "%.3f", team.winPercentage)))")
-                                                            .foregroundColor(.gray)
-                                                            .font(.footnote)
-                                                    }
-                                                }
-                                            }
-                                        }
+        ViewThatFits {
+            NavigationSplitView {
+                SummaryTemplateView(
+                    generateSummary: { try await StandingsSummarizer.summarizeStandings(standings) },
+                    content: {
+                        List {
+                            StandingsSections()
+                        }
+                    },
+                    summaryIcon: Image(systemName: "baseball.fill"),
+                    summarySheetTitle: "Standings Summary"
+                )
+                .navigationTitle("MLB Standings")
+            } detail: {
+                GameDetailSheetView()
+            }
+            
+            NavigationStack {
+                SummaryTemplateView(
+                    generateSummary: { try await StandingsSummarizer.summarizeStandings(standings) },
+                    content: {
+                        List {
+                            StandingsSections()
+                        }
+                    },
+                    summaryIcon: Image(systemName: "baseball.fill"),
+                    summarySheetTitle: "Standings Summary"
+                )
+                .navigationTitle("MLB Standings")
+            }
+        }
+    }
+    
+    func StandingsSections() -> some View {
+        ForEach(League.allCases, id: \.self) { league in
+            if let divisions = groupedStandings[league] {
+                Section(header: Text(league.rawValue).font(.title2)) {
+                    ForEach(Division.allCases, id: \.self) { division in
+                        if let teams = divisions[division] {
+                            Section(header: Text(division.rawValue)) {
+                                ForEach(teams) { team in
+                                    HStack {
+                                        Text(team.team.rawValue)
+                                            .fontWeight(.bold)
+                                        Spacer()
+                                        Text("\(team.wins)-\(team.losses)")
+                                        Text("(\(String(format: "%.3f", team.winPercentage)))")
+                                            .foregroundColor(.gray)
+                                            .font(.footnote)
                                     }
                                 }
                             }
                         }
                     }
-                },
-                summaryIcon: Image(systemName: "baseball.fill"),
-                summarySheetTitle: "Standings Summary"
-            )
-            .navigationTitle("MLB Standings")
+                }
+            }
         }
     }
     
